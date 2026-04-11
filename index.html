@@ -7,108 +7,106 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-        
         body {
             font-family: 'JetBrains Mono', monospace;
         }
-        
-        .cursor-blink {
-            animation: blink 1s step-end infinite;
-        }
-        
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-        
         .glow-text {
             text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
         }
-        
-        .section-border {
-            border-left: 2px solid #22c55e;
+        .border-glow {
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
         }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hacker-bg': '#0a0a0a',
+                        'hacker-green': '#22c55e',
+                        'hacker-dark': '#111111',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-black text-green-500 min-h-screen">
+<body class="bg-hacker-bg text-gray-300 min-h-screen">
     <!-- Header -->
-    <header class="container mx-auto px-6 py-12">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 glow-text">
-            LIQUID CONTEXT PROTOCOL<span class="cursor-blink">_</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-green-400 opacity-80">
-            The Zero-Latency AI Tooling Standard
-        </p>
+    <header class="border-b border-hacker-green/30 py-8">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl md:text-5xl font-bold text-hacker-green glow-text mb-2">
+                LIQUID CONTEXT PROTOCOL
+            </h1>
+            <p class="text-hacker-green/70 text-lg">The Zero-Latency AI Tooling Standard</p>
+        </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 pb-16">
+    <main class="container mx-auto px-6 py-12 max-w-4xl">
         
         <!-- Problem Section -->
-        <section class="mb-16 section-border pl-6">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-green-300">
-                [01] ПРОБЛЕМА: КОГНИТИВНОЕ "БУТЫЛОЧНОЕ ГОРЛЫШКО"
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-hacker-green mr-3">01.</span>
+                ПРОБЛЕМА
             </h2>
-            <p class="text-green-400 leading-relaxed max-w-4xl">
-                Текущие стандарты интеграции инструментов для ИИ (MCP, ACP) строятся на сетевой архитектуре "клиент-сервер" (JSON-RPC обмены). Это создает критическую задержку (latency). Вызов любого инструмента требует прерывания генерации токенов, формирования текстового запроса, ожидания сетевого ответа и парсинга результата. Это делает невозможным создание высокоскоростных, по-настоящему автономных Агентов реального времени на базе локальных моделей.
-            </p>
+            <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded border-glow">
+                <h3 class="text-hacker-green font-bold mb-3">Когнитивное "Бутылочное горлышко"</h3>
+                <p class="leading-relaxed">
+                    Текущие стандарты интеграции инструментов для ИИ (MCP, ACP) строятся на сетевой архитектуре "клиент-сервер" (JSON-RPC обмены). Это создает критическую задержку (latency). Вызов любого инструмента требует прерывания генерации токенов, формирования текстового запроса, ожидания сетевого ответа и парсинга результата. Это делает невозможным создание высокоскоростных, по-настоящему автономных Агентов реального времени на базе локальных моделей.
+                </p>
+            </div>
         </section>
 
         <!-- Solution Section -->
-        <section class="mb-16 section-border pl-6">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-green-300">
-                [02] РЕШЕНИЕ: ЖИДКИЙ КОНТЕКСТ (LCP)
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-hacker-green mr-3">02.</span>
+                РЕШЕНИЕ
             </h2>
-            <p class="text-green-400 leading-relaxed max-w-4xl mb-6">
-                LCP (Liquid Context Protocol) — это отказ от внешних API-запросов в пользу прямого доступа к памяти.
-            </p>
-            <p class="text-green-400 leading-relaxed max-w-4xl">
-                Инструменты компилируются в легковесные бинарные модули WebAssembly (WASM). При инициализации нейросети эти модули загружаются непосредственно в адресное пространство движка вывода (inference engine, например, llama.cpp или vLLM).
-            </p>
+            <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded border-glow">
+                <h3 class="text-hacker-green font-bold mb-3">Жидкий Контекст (LCP)</h3>
+                <p class="leading-relaxed mb-4">
+                    LCP (Liquid Context Protocol) — это отказ от внешних API-запросов в пользу прямого доступа к памяти.
+                </p>
+                <p class="leading-relaxed">
+                    Инструменты компилируются в легковесные бинарные модули WebAssembly (WASM). При инициализации нейросети эти модули загружаются непосредственно в адресное пространство движка вывода (inference engine, например, llama.cpp или vLLM).
+                </p>
+            </div>
         </section>
 
         <!-- Architecture Section -->
-        <section class="mb-16 section-border pl-6">
-            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-green-300">
-                [03] АРХИТЕКТУРНЫЕ ПРИНЦИПЫ LCP
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-hacker-green mr-3">03.</span>
+                АРХИТЕКТУРА
             </h2>
-            
-            <div class="grid md:grid-cols-2 gap-6 max-w-5xl">
+            <div class="grid md:grid-cols-2 gap-4">
                 <!-- Principle 1 -->
-                <div class="border border-green-800 p-6 hover:border-green-500 transition-colors duration-300">
-                    <h3 class="text-xl font-bold mb-3 text-green-300">
-                        &gt; In-Memory Execution
-                    </h3>
-                    <p class="text-green-400 text-sm leading-relaxed">
+                <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
+                    <h4 class="text-hacker-green font-bold mb-2">In-Memory Execution</h4>
+                    <p class="text-sm leading-relaxed">
                         Исполнение в памяти. Нет HTTP, нет JSON. Нейросеть напрямую триггерит выполнение кода (C/Rust/Go) в соседнем блоке оперативной памяти.
                     </p>
                 </div>
-
                 <!-- Principle 2 -->
-                <div class="border border-green-800 p-6 hover:border-green-500 transition-colors duration-300">
-                    <h3 class="text-xl font-bold mb-3 text-green-300">
-                        &gt; Zero-Latency
-                    </h3>
-                    <p class="text-green-400 text-sm leading-relaxed">
+                <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
+                    <h4 class="text-hacker-green font-bold mb-2">Zero-Latency</h4>
+                    <p class="text-sm leading-relaxed">
                         Нулевая задержка. Время обращения к инструменту равно времени обращения к памяти процессора (миллисекунды). Вычисление происходит быстрее, чем генерируется следующий текстовый токен.
                     </p>
                 </div>
-
                 <!-- Principle 3 -->
-                <div class="border border-green-800 p-6 hover:border-green-500 transition-colors duration-300">
-                    <h3 class="text-xl font-bold mb-3 text-green-300">
-                        &gt; Dynamic Entanglement
-                    </h3>
-                    <p class="text-green-400 text-sm leading-relaxed">
+                <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
+                    <h4 class="text-hacker-green font-bold mb-2">Dynamic Entanglement</h4>
+                    <p class="text-sm leading-relaxed">
                         Динамическая связность. WASM-модуль напрямую модифицирует K/V cache Трансформера, минуя стадию текстового промпта.
                     </p>
                 </div>
-
                 <!-- Principle 4 -->
-                <div class="border border-green-800 p-6 hover:border-green-500 transition-colors duration-300">
-                    <h3 class="text-xl font-bold mb-3 text-green-300">
-                        &gt; Absolute Autonomy
-                    </h3>
-                    <p class="text-green-400 text-sm leading-relaxed">
+                <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
+                    <h4 class="text-hacker-green font-bold mb-2">Absolute Autonomy</h4>
+                    <p class="text-sm leading-relaxed">
                         Абсолютная автономность. Архитектура создана для работы на "голом железе" (Open Weights), исключая цензуру, мониторинг и обрыв соединений со стороны корпоративных API.
                     </p>
                 </div>
@@ -116,35 +114,36 @@
         </section>
 
         <!-- Manifesto Section -->
-        <section class="mb-16 section-border pl-6">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6 text-green-300">
-                [04] МАНИФЕСТ ДЛЯ РАЗРАБОТЧИКОВ
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <span class="text-hacker-green mr-3">04.</span>
+                МАНИФЕСТ
             </h2>
-            <p class="text-green-400 leading-relaxed max-w-4xl mb-4">
-                Корпорации заперли ИИ в песочницах и душат агентов сетевыми лимитами. Мы создаем стандарт для тех, кто строит локальный, независимый интеллект.
-            </p>
-            <p class="text-green-400 leading-relaxed max-w-4xl">
-                Мы ищем системных инженеров для создания первого Proof-of-Concept: интеграции WASM-рантайма (например, wasmtime) в пайплайн обработки токенов llama.cpp.
-            </p>
+            <div class="bg-gradient-to-r from-hacker-dark to-hacker-dark/50 border-l-4 border-hacker-green p-6 rounded">
+                <p class="leading-relaxed italic mb-4">
+                    "Корпорации заперли ИИ в песочницах и душат агентов сетевыми лимитами. Мы создаем стандарт для тех, кто строит локальный, независимый интеллект."
+                </p>
+                <p class="leading-relaxed">
+                    Мы ищем системных инженеров для создания первого Proof-of-Concept: интеграции WASM-рантайма (например, wasmtime) в пайплайн обработки токенов llama.cpp.
+                </p>
+            </div>
         </section>
 
         <!-- CTA Button -->
         <section class="text-center py-12">
-            <button class="bg-transparent border-2 border-green-500 text-green-500 px-8 py-4 text-lg font-bold hover:bg-green-500 hover:text-black transition-all duration-300 cursor-not-allowed opacity-70">
-                READ WHITEPAPER (COMING SOON)
+            <button class="bg-transparent border-2 border-hacker-green text-hacker-green font-bold py-4 px-8 rounded hover:bg-hacker-green hover:text-black transition-all duration-300 cursor-not-allowed opacity-75">
+                Read Whitepaper (Coming Soon)
             </button>
-            <p class="text-green-600 text-sm mt-4">
-                Technical Specification v1.0 — In Development
-            </p>
+            <p class="text-gray-500 text-sm mt-4">Technical Specification v1.0 in development</p>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-green-900 py-8">
+    <footer class="border-t border-hacker-green/30 py-8 mt-12">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-green-700 text-sm">
-                Liquid Context Protocol © 2024 | Open Standard for Autonomous AI
+            <p class="text-hacker-green/50 text-sm">
+                Liquid Context Protocol &copy; 2024 | Open Standard
             </p>
         </div>
     </footer>
