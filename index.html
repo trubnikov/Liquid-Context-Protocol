@@ -48,12 +48,12 @@
         <section class="mb-16">
             <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
                 <span class="text-hacker-green mr-3">01.</span>
-                ПРОБЛЕМА
+                THE PROBLEM
             </h2>
             <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded border-glow">
-                <h3 class="text-hacker-green font-bold mb-3">Когнитивное "Бутылочное горлышко"</h3>
+                <h3 class="text-hacker-green font-bold mb-3">Cognitive Bottleneck</h3>
                 <p class="leading-relaxed">
-                    Текущие стандарты интеграции инструментов для ИИ (MCP, ACP) строятся на сетевой архитектуре "клиент-сервер" (JSON-RPC обмены). Это создает критическую задержку (latency). Вызов любого инструмента требует прерывания генерации токенов, формирования текстового запроса, ожидания сетевого ответа и парсинга результата. Это делает невозможным создание высокоскоростных, по-настоящему автономных Агентов реального времени на базе локальных моделей.
+                    Current AI tool integration standards (MCP, ACP) are built on a "client-server" network architecture (JSON-RPC exchanges). This creates critical latency. Calling any tool requires interrupting token generation, forming a text request, waiting for a network response, and parsing the result. This makes it impossible to create high-speed, truly autonomous Real-Time Agents based on local models.
                 </p>
             </div>
         </section>
@@ -62,15 +62,15 @@
         <section class="mb-16">
             <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
                 <span class="text-hacker-green mr-3">02.</span>
-                РЕШЕНИЕ
+                THE SOLUTION
             </h2>
             <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded border-glow">
-                <h3 class="text-hacker-green font-bold mb-3">Жидкий Контекст (LCP)</h3>
+                <h3 class="text-hacker-green font-bold mb-3">Liquid Context (LCP)</h3>
                 <p class="leading-relaxed mb-4">
-                    LCP (Liquid Context Protocol) — это отказ от внешних API-запросов в пользу прямого доступа к памяти.
+                    LCP (Liquid Context Protocol) is a rejection of external API requests in favor of direct memory access.
                 </p>
                 <p class="leading-relaxed">
-                    Инструменты компилируются в легковесные бинарные модули WebAssembly (WASM). При инициализации нейросети эти модули загружаются непосредственно в адресное пространство движка вывода (inference engine, например, llama.cpp или vLLM).
+                    Tools are compiled into lightweight WebAssembly (WASM) binary modules. Upon neural network initialization, these modules are loaded directly into the address space of the inference engine (e.g., llama.cpp or vLLM).
                 </p>
             </div>
         </section>
@@ -79,35 +79,35 @@
         <section class="mb-16">
             <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
                 <span class="text-hacker-green mr-3">03.</span>
-                АРХИТЕКТУРА
+                ARCHITECTURE
             </h2>
             <div class="grid md:grid-cols-2 gap-4">
                 <!-- Principle 1 -->
                 <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
                     <h4 class="text-hacker-green font-bold mb-2">In-Memory Execution</h4>
                     <p class="text-sm leading-relaxed">
-                        Исполнение в памяти. Нет HTTP, нет JSON. Нейросеть напрямую триггерит выполнение кода (C/Rust/Go) в соседнем блоке оперативной памяти.
+                        No HTTP, no JSON. The neural network directly triggers code execution (C/Rust/Go) in an adjacent block of RAM.
                     </p>
                 </div>
                 <!-- Principle 2 -->
                 <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
                     <h4 class="text-hacker-green font-bold mb-2">Zero-Latency</h4>
                     <p class="text-sm leading-relaxed">
-                        Нулевая задержка. Время обращения к инструменту равно времени обращения к памяти процессора (миллисекунды). Вычисление происходит быстрее, чем генерируется следующий текстовый токен.
+                        Tool access time equals CPU memory access time (milliseconds). Computation occurs faster than the next text token is generated.
                     </p>
                 </div>
                 <!-- Principle 3 -->
                 <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
                     <h4 class="text-hacker-green font-bold mb-2">Dynamic Entanglement</h4>
                     <p class="text-sm leading-relaxed">
-                        Динамическая связность. WASM-модуль напрямую модифицирует K/V cache Трансформера, минуя стадию текстового промпта.
+                        The WASM module directly modifies the Transformer's K/V cache, bypassing the text prompt stage.
                     </p>
                 </div>
                 <!-- Principle 4 -->
                 <div class="bg-hacker-dark border border-hacker-green/20 p-6 rounded hover:border-hacker-green transition-colors duration-300">
                     <h4 class="text-hacker-green font-bold mb-2">Absolute Autonomy</h4>
                     <p class="text-sm leading-relaxed">
-                        Абсолютная автономность. Архитектура создана для работы на "голом железе" (Open Weights), исключая цензуру, мониторинг и обрыв соединений со стороны корпоративных API.
+                        The architecture is designed for "bare metal" operation (Open Weights), excluding censorship, monitoring, and connection drops from corporate APIs.
                     </p>
                 </div>
             </div>
@@ -117,14 +117,14 @@
         <section class="mb-16">
             <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
                 <span class="text-hacker-green mr-3">04.</span>
-                МАНИФЕСТ
+                MANIFESTO
             </h2>
             <div class="bg-gradient-to-r from-hacker-dark to-hacker-dark/50 border-l-4 border-hacker-green p-6 rounded">
                 <p class="leading-relaxed italic mb-4">
-                    "Корпорации заперли ИИ в песочницах и душат агентов сетевыми лимитами. Мы создаем стандарт для тех, кто строит локальный, независимый интеллект."
+                    "Corporations have locked AI in sandboxes and are strangling agents with network limits. We are creating a standard for those building local, independent intelligence."
                 </p>
                 <p class="leading-relaxed">
-                    Мы ищем системных инженеров для создания первого Proof-of-Concept: интеграции WASM-рантайма (например, wasmtime) в пайплайн обработки токенов llama.cpp.
+                    We are looking for systems engineers to create the first Proof-of-Concept: integrating a WASM runtime (e.g., wasmtime) into the llama.cpp token processing pipeline.
                 </p>
             </div>
         </section>

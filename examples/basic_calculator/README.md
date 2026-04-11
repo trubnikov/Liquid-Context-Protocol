@@ -1,75 +1,75 @@
 # Basic Calculator - LCP WebAssembly Module
 
-Этот пример демонстрирует создание компактного WebAssembly модуля на Rust в парадигме Liquid Context Protocol (LCP). Модуль реализует базовые арифметические операции и оптимизирован для минимального размера.
+This example demonstrates creating a compact WebAssembly module in Rust following the Liquid Context Protocol (LCP) paradigm. The module implements basic arithmetic operations and is optimized for minimal size.
 
-## Особенности
+## Features
 
-- **no_std**: Не использует стандартную библиотеку Rust для минимизации размера
-- **Компактность**: Итоговый `.wasm` файл весит всего несколько килобайт
-- **Экспортируемые функции**:
-  - `add_u64(a, b)` - сложение двух 64-битных чисел
-  - `mul_u64(a, b)` - умножение двух 64-битных чисел
-  - `add_safe(a, b)` - сложение с проверкой переполнения
-  - `mul_safe(a, b)` - умножение с проверкой переполнения
-  - `get_version()` - возвращает версию модуля
+- **no_std**: Does not use Rust standard library to minimize size
+- **Compactness**: The resulting `.wasm` file is only a few kilobytes
+- **Exported Functions**:
+  - `add_u64(a, b)` - addition of two 64-bit numbers
+  - `mul_u64(a, b)` - multiplication of two 64-bit numbers
+  - `add_safe(a, b)` - addition with overflow check
+  - `mul_safe(a, b)` - multiplication with overflow check
+  - `get_version()` - returns module version
 
-## Требования
+## Requirements
 
-1. **Rust** (последняя стабильная версия):
+1. **Rust** (latest stable version):
    ```bash
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
 
-2. **Целевая платформа wasm32-unknown-unknown**:
+2. **wasm32-unknown-unknown target platform**:
    ```bash
    rustup target add wasm32-unknown-unknown
    ```
 
-3. **Инструменты для оптимизации** (опционально, для ещё меньшего размера):
+3. **Optimization tools** (optional, for even smaller size):
    ```bash
    cargo install wasm-opt
    ```
 
-## Компиляция
+## Compilation
 
-### Базовая компиляция
+### Basic Compilation
 
 ```bash
 cd examples/basic_calculator
 cargo build --target wasm32-unknown-unknown --release
 ```
 
-Итоговый файл будет находиться по пути:
+The resulting file will be located at:
 ```
 target/wasm32-unknown-unknown/release/basic_calculator.wasm
 ```
 
-### Проверка размера
+### Check Size
 
 ```bash
 ls -lh target/wasm32-unknown-unknown/release/basic_calculator.wasm
 ```
 
-Ожидаемый размер: **~2-4 КБ** (без дополнительной оптимизации).
+Expected size: **~2-4 KB** (without additional optimization).
 
-### Дополнительная оптимизация (через wasm-opt)
+### Additional Optimization (via wasm-opt)
 
-Если установлен `wasm-opt` из Binaryen:
+If `wasm-opt` from Binaryen is installed:
 
 ```bash
 wasm-opt -Oz target/wasm32-unknown-unknown/release/basic_calculator.wasm -o basic_calculator.min.wasm
 ```
 
-Это может уменьшить размер ещё на 20-30%.
+This can reduce size by another 20-30%.
 
-## Использование в JavaScript
+## Usage in JavaScript
 
 ```javascript
-// Загрузка модуля
+// Load module
 const wasmBytes = await fetch('basic_calculator.wasm').then(r => r.arrayBuffer());
 const { instance } = await WebAssembly.instantiate(wasmBytes);
 
-// Вызов функций
+// Call functions
 const sum = instance.exports.add_u64(10, 20);
 console.log(sum); // 30
 
@@ -77,10 +77,10 @@ const product = instance.exports.mul_u64(5, 7);
 console.log(product); // 35
 
 const version = instance.exports.get_version();
-console.log(version.toString(16)); // "10000" (версия 1.0.0)
+console.log(version.toString(16)); // "10000" (version 1.0.0)
 ```
 
-## Использование в Python (через wasmer)
+## Usage in Python (via wasmer)
 
 ```python
 from wasmer import Store, Module, Instance
@@ -96,14 +96,14 @@ result = instance.exports.add_u64(100, 200)
 print(f"Result: {result}")  # Result: 300
 ```
 
-## Архитектура в контексте LCP
+## Architecture in LCP Context
 
-Этот модуль демонстрирует принципы LCP:
-1. **Атомарность**: Каждая функция выполняет одну четкую задачу
-2. **Переносимость**: Работает в любой среде с поддержкой WebAssembly
-3. **Минимализм**: Нет зависимостей, минимальный размер
-4. **Интероперабельность**: Легко вызывается из JS, Python, Go и других языков
+This module demonstrates LCP principles:
+1. **Atomicity**: Each function performs one clear task
+2. **Portability**: Works in any environment with WebAssembly support
+3. **Minimalism**: No dependencies, minimal size
+4. **Interoperability**: Easily callable from JS, Python, Go, and other languages
 
-## Лицензия
+## License
 
 MIT

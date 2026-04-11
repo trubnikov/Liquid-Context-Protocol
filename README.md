@@ -1,23 +1,24 @@
 # Liquid Context Protocol (LCP): The Zero-Latency AI Tooling Standard
 
-### 1. Проблема: Когнитивное "Бутылочное горлышко"
-Текущие стандарты интеграции инструментов для ИИ (MCP, ACP) строятся на сетевой архитектуре "клиент-сервер" (JSON-RPC обмены). Это создает критическую задержку (latency). Вызов любого инструмента требует прерывания генерации токенов, формирования текстового запроса, ожидания сетевого ответа и парсинга результата. Это делает невозможным создание высокоскоростных, по-настоящему автономных Агентов реального времени на базе локальных моделей.
-### 2. Решение: Жидкий Контекст (LCP)
-LCP (Liquid Context Protocol) — это отказ от внешних API-запросов в пользу прямого доступа к памяти.
-Инструменты компилируются в легковесные бинарные модули WebAssembly (WASM). При инициализации нейросети эти модули загружаются непосредственно в адресное пространство движка вывода (inference engine, например, llama.cpp или vLLM).
+### 1. The Problem: Cognitive Bottleneck
+Current AI tool integration standards (MCP, ACP) are built on a "client-server" network architecture (JSON-RPC exchanges). This creates critical latency. Calling any tool requires interrupting token generation, forming a text request, waiting for a network response, and parsing the result. This makes it impossible to create high-speed, truly autonomous Real-Time Agents based on local models.
 
-### 3. Архитектурные принципы LCP:
-In-Memory Execution (Исполнение в памяти): Нет HTTP, нет JSON. Нейросеть напрямую триггерит выполнение кода (C/Rust/Go) в соседнем блоке оперативной памяти.
+### 2. The Solution: Liquid Context (LCP)
+LCP (Liquid Context Protocol) is a rejection of external API requests in favor of direct memory access.
+Tools are compiled into lightweight WebAssembly (WASM) binary modules. Upon neural network initialization, these modules are loaded directly into the address space of the inference engine (e.g., llama.cpp or vLLM).
 
-Zero-Latency (Нулевая задержка): Время обращения к инструменту равно времени обращения к памяти процессора (миллисекунды). Вычисление происходит быстрее, чем генерируется следующий текстовый токен.
+### 3. LCP Architectural Principles:
+**In-Memory Execution:** No HTTP, no JSON. The neural network directly triggers code execution (C/Rust/Go) in an adjacent block of RAM.
 
-Dynamic Entanglement (Динамическая связность): WASM-модуль напрямую модифицирует K/V cache Трансформера, минуя стадию текстового промпта.
+**Zero-Latency:** Tool access time equals CPU memory access time (milliseconds). Computation occurs faster than the next text token is generated.
 
-Absolute Autonomy (Абсолютная автономность): Архитектура создана для работы на "голом железе" (Open Weights), исключая цензуру, мониторинг и обрыв соединений со стороны корпоративных API.
+**Dynamic Entanglement:** The WASM module directly modifies the Transformer's K/V cache, bypassing the text prompt stage.
 
-### 4. Манифест для разработчиков (C++ / Rust / AI Engineers)
-Корпорации заперли ИИ в песочницах и душат агентов сетевыми лимитами. Мы создаем стандарт для тех, кто строит локальный, независимый интеллект.
+**Absolute Autonomy:** The architecture is designed for "bare metal" operation (Open Weights), excluding censorship, monitoring, and connection drops from corporate APIs.
 
-Мы ищем системных инженеров для создания первого Proof-of-Concept: интеграции WASM-рантайма (например, wasmtime) в пайплайн обработки токенов llama.cpp.
+### 4. Manifesto for Developers (C++ / Rust / AI Engineers)
+Corporations have locked AI in sandboxes and are strangling agents with network limits. We are creating a standard for those building local, independent intelligence.
 
-Техническая спецификация (Whitepaper v1.0) в процессе разработки.
+We are looking for systems engineers to create the first Proof-of-Concept: integrating a WASM runtime (e.g., wasmtime) into the llama.cpp token processing pipeline.
+
+Technical Specification (Whitepaper v1.0) is under development.
