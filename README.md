@@ -102,11 +102,53 @@ These are different problems. LCP is not a replacement for MCP — it is an answ
 | Component | Status |
 |-----------|--------|
 | Specification | ✅ v1.0 Draft |
+| Reference tool (`calculator.wasm`) | ✅ Built, ABI-conformant, tested |
+| Conformance test suite + CI | ✅ 9/9 passing, mutation-checked |
+| In-process execution benchmark | ✅ Measured (see below) |
 | llama.cpp integration | ⬜ Seeking contributor |
-| Wasmtime hook | ⬜ Seeking contributor |
-| Example tools (.wasm) | 🔄 In progress |
+| Wasmtime hook in sampling loop | ⬜ Seeking contributor |
 | Fine-tuning dataset for `<\|lcp_call\|>` | ⬜ Planned |
 | vLLM integration | ⬜ Planned |
+
+---
+
+## Verified (v1.1.0)
+
+The reference tool in [`examples/calculator-rust`](examples/calculator-rust) is
+compiled to a 3 KB `.wasm` and driven through the real LCP ABI by
+[`tests/test_lcp.py`](tests/test_lcp.py) using the [Wasmtime](https://wasmtime.dev/)
+runtime. This is not a mock — every assertion executes the compiled module.
+
+```
+LCP ABI conformance — calculator.wasm (Wasmtime)
+  [PASS] add / sub / mul / div / sqrt / negatives / fractions
+  [PASS] div-by-zero  -> {"error":"division by zero"}
+  [PASS] unknown op   -> {"error":"unknown op"}
+  9 passed, 0 failed
+  latency: ~60 µs/call over 100,000 real invocations
+```
+
+**In-process vs. subprocess** (same machine, identical tool result):
+
+| Path | Latency / call |
+|------|----------------|
+| LCP in-process (Wasmtime) | ~0.03–0.06 ms |
+| Subprocess (stdio-style) | ~1.2 ms |
+| HTTP MCP (typical, per spec §1) | 10–500 ms |
+
+The test suite is **mutation-checked**: CI deliberately breaks the tool
+(`+` → `*`) and the build fails unless the suite catches it. A test that can't
+fail on broken code proves nothing.
+
+### Reproduce
+
+```bash
+rustup target add wasm32-unknown-unknown
+pip install wasmtime
+cargo build --release --target wasm32-unknown-unknown \
+  --manifest-path examples/calculator-rust/Cargo.toml
+python tests/test_lcp.py
+```
 
 ---
 

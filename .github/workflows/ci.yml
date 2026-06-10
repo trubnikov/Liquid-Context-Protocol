@@ -1,0 +1,49 @@
+name: LCP Conformance
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust + wasm target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install wasmtime (Python bindings)
+        run: pip install wasmtime
+
+      - name: Build calculator.wasm (clean, no cache surprises)
+        run: |
+          cargo clean --manifest-path examples/calculator-rust/Cargo.toml
+          cargo build --release --target wasm32-unknown-unknown \
+            --manifest-path examples/calculator-rust/Cargo.toml
+
+      - name: Run ABI conformance tests
+        run: python tests/test_lcp.py
+
+      - name: Mutation check (a broken tool MUST fail the suite)
+        run: |
+          set -e
+          sed -i 's/Some(b"add") => a + b,/Some(b"add") => a * b,/' examples/calculator-rust/src/lib.rs
+          cargo clean --manifest-path examples/calculator-rust/Cargo.toml
+          cargo build --release --target wasm32-unknown-unknown \
+            --manifest-path examples/calculator-rust/Cargo.toml
+          if python tests/test_lcp.py; then
+            echo "::error::Mutation NOT caught — tests are not meaningful"
+            exit 1
+          else
+            echo "Mutation correctly caught by the test suite."
+          fi
+          git checkout -- examples/calculator-rust/src/lib.rs
